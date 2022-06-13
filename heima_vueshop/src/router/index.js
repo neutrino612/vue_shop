@@ -4,13 +4,24 @@ import Login from '../components/Login.vue'
 //导入全局样式表
 import '../assets/css/global.css'
 import Home from '../components/Home.vue'
+import Welcome from '../components/Welcome'
+import Users from '../components/user/Users.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   { path: '/',  redirect:'./login'},
   { path: '/login', component: Login },
-  { path: '/home', component: Home }
+  { path: '/home', 
+    component: Home,
+    redirect:'/welcome',
+    children:[
+    { path:'/welcome',component: Welcome },
+    { path:'/users',component: Users},
+
+  ]
+  }
+
 
 ]
 
@@ -28,7 +39,7 @@ if(to.path==='/login') return next();
 //获取token 
 const tokenStr=window.sessionStorage.getItem('token')
 
-if(!tokenStr) return  next('/logini')
+if(!tokenStr) return  next('/login')
 next()
 })
 
